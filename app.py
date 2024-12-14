@@ -48,13 +48,13 @@ bot_template = """
 </div>
 """
 
-def text_to_speech(text):
-    try:
-        engine = pyttsx3.init()
-        engine.say(text)
-        engine.runAndWait()
-    except Exception as e:
-        st.error(f"⚠ Error in text-to-speech: {e}")
+# def text_to_speech(text):
+#     try:
+#         engine = pyttsx3.init()
+#         engine.say(text)
+#         engine.runAndWait()
+#     except Exception as e:
+#         st.error(f"⚠ Error in text-to-speech: {e}")
 
 def get_pdf_text(pdf_paths):
     text = ""
