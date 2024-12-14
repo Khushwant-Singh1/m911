@@ -215,10 +215,7 @@ def main():
                 rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
                 media_stream_constraints={"audio": True, "video": False},
             ),
-            audio_receiver_size=1024,
-            sendback_audio=False,
-            video_transformer_factory=None,  # This is fine if you don’t need video transformations
-            callback=audio_frame_callback  # Use the audio frame callback
+            # Use the audio frame callback
         )
 
 
