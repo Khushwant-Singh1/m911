@@ -5,3 +5,4 @@ faiss-cpu
 openai
 langchain-community
 speechrecognition
+pyttsx3
