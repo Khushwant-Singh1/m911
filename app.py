@@ -1,5 +1,7 @@
 import streamlit as st
+import speech_recognition as sr
 import pyttsx3
+from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
@@ -7,6 +9,7 @@ from langchain_community.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 import openai
+
 
 # Simple CSS for styling user and bot messages
 css = """
@@ -38,6 +41,23 @@ bot_template = """
     <strong>AI:</strong> {{MSG}}
 </div>
 """
+
+def speech_to_text():
+    recognizer = sr.Recognizer()
+    try:
+        with sr.Microphone() as source:
+            st.write("🎤 **Listening... Speak now**")
+            recognizer.adjust_for_ambient_noise(source, duration=1)
+            audio = recognizer.listen(source, timeout=5)
+        text = recognizer.recognize_google(audio)
+        st.write(f"**Recognized:** {text}")
+        return text
+    except sr.UnknownValueError:
+        st.error("😔 Sorry, I could not understand the audio.")
+    except sr.RequestError:
+        st.error("⚠️ Could not request results from speech recognition service.")
+    except Exception as e:
+        st.error(f"⚠️ Error in speech recognition: {e}")
 
 def text_to_speech(text):
     try:
@@ -84,34 +104,6 @@ def handle_userinput(user_question):
 
     text_to_speech(answer)
 
-# JavaScript for capturing speech input
-speech_input_js = """
-<script>
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.lang = 'en-US';
-    recognition.interimResults = true;
-    recognition.onstart = () => {
-        document.getElementById('status').innerText = 'Listening...';
-    };
-    recognition.onresult = (event) => {
-        let transcript = '';
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-            transcript += event.results[i][0].transcript;
-        }
-        window.parent.postMessage({type: 'speech_result', text: transcript}, '*');
-    };
-    recognition.onerror = (event) => {
-        document.getElementById('status').innerText = 'Error occurred: ' + event.error;
-    };
-    function startListening() {
-        recognition.start();
-    }
-</script>
-<button onclick="startListening()">Start Voice Input</button>
-<p id="status">Click the button to start listening.</p>
-</script>
-"""
-
 def main():
     st.set_page_config(page_title="Understand IT by Metaverse911", page_icon="💻")
 
@@ -141,13 +133,8 @@ def main():
         if user_question:
             handle_userinput(user_question)
     else:
-        # Include JavaScript to capture voice input and send it to the Streamlit app
-        st.components.v1.html(speech_input_js, height=400)
-
-        # Listen for messages from JavaScript
-        message = st.experimental_get_query_params().get('speech_result', None)
-        if message:
-            voice_question = message[0]
+        if st.button("🎙️ Start Voice Input"):
+            voice_question = speech_to_text()
             if voice_question:
                 handle_userinput(voice_question)
 
