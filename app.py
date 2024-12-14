@@ -41,7 +41,7 @@ bot_template = """
     <strong>AI:</strong> {{MSG}}
 </div>
 """
-openai.api_key = st.secrets["openai"]["api_key"]
+
 def speech_to_text():
     recognizer = sr.Recognizer()
     try:
@@ -84,7 +84,8 @@ def get_text_chunks(text):
     return chunks
 
 def get_vectorstore(text_chunks):
-    embeddings = OpenAIEmbeddings()
+    openai_api_key = st.secrets["openai"]["api_key"]
+    embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
     return vectorstore
 
