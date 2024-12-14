@@ -8,7 +8,7 @@ from langchain.vectorstores import FAISS
 from langchain_community.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
-
+import openai
 
 
 # Simple CSS for styling user and bot messages
