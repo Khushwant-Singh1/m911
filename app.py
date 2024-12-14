@@ -212,10 +212,11 @@ def main():
             ),
             audio_receiver_size=1024,
             sendback_audio=False,
-            video_transformer_factory=None,
-            audio_transformer_factory=None,
+            video_transformer_factory=None,  # This is fine if you don’t need video transformations
+            # Removed audio_transformer_factory argument
             on_audio_frame_received=audio_frame_callback
         )
+
 
     with st.sidebar:
         st.markdown("### 🔧 Process the Data")
