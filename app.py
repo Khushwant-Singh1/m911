@@ -1,7 +1,6 @@
 import streamlit as st
 import speech_recognition as sr
 import pyttsx3
-from dotenv import load_dotenv
 from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
