@@ -112,7 +112,7 @@ def audio_frame_callback(audio_frame: av.AudioFrame):
     return audio_frame
 
 class AudioProcessor:
-    def _init_(self):
+    def __init__(self):
         self.frames = []
         self.sampling_rate = 16000  # default sampling rate (will adjust if necessary)
         self.channels = 1
@@ -218,7 +218,7 @@ def main():
             audio_receiver_size=1024,
             sendback_audio=False,
             video_transformer_factory=None,  # This is fine if you don’t need video transformations
-            on_audio_frame_received=audio_frame_callback  # Use the audio frame callback
+            on_audio_frame=audio_frame_callback  # Use the audio frame callback
         )
 
 
