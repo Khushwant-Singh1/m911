@@ -8,7 +8,8 @@ from langchain.vectorstores import FAISS
 from langchain_community.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
-import os
+
+
 
 # Simple CSS for styling user and bot messages
 css = """
@@ -40,7 +41,7 @@ bot_template = """
     <strong>AI:</strong> {{MSG}}
 </div>
 """
-
+openai.api_key = st.secrets["openai"]["api_key"]
 def speech_to_text():
     recognizer = sr.Recognizer()
     try:
@@ -104,8 +105,8 @@ def handle_userinput(user_question):
 
 def main():
     st.set_page_config(page_title="Understand IT by Metaverse911", page_icon="💻")
-    load_dotenv()
-    SYSTEM_MESSAGE = os.getenv('OPENAI_SYSTEM_MESSAGE', 'You are a helpful AI assistant specializing in document analysis.')
+
+    SYSTEM_MESSAGE = st.secrets.get("openai", {}).get("SYSTEM_MESSAGE", "You are a helpful AI assistant.")
 
     st.markdown(css, unsafe_allow_html=True)
 
