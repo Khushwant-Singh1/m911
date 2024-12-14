@@ -106,6 +106,11 @@ def transcribe_audio_file(audio_path):
         st.error("⚠ Could not request results from speech recognition service.")
     return ""
 
+def audio_frame_callback(audio_frame: av.AudioFrame):
+    if st.session_state.recording:
+        st.session_state.audio_processor.add_frame(audio_frame)
+    return audio_frame
+
 class AudioProcessor:
     def _init_(self):
         self.frames = []
@@ -137,6 +142,8 @@ class AudioProcessor:
         wf.setframerate(self.sampling_rate)
         wf.writeframes(audio_data.tobytes())
         wf.close()
+
+
 
 def main():
     st.set_page_config(page_title="Understand IT by Metaverse911", page_icon="💻")
@@ -198,11 +205,7 @@ def main():
                         handle_userinput(voice_question)
 
         # WebRTC audio capture
-        def audio_frame_callback(frame: av.AudioFrame):
-            if st.session_state.recording:
-                st.session_state.audio_processor.add_frame(frame)
-            return frame
-
+ 
         webrtc_streamer(
             key="speech",
             mode=WebRtcMode.SENDRECV,
@@ -213,8 +216,7 @@ def main():
             audio_receiver_size=1024,
             sendback_audio=False,
             video_transformer_factory=None,  # This is fine if you don’t need video transformations
-            # Removed audio_transformer_factory argument
-            on_audio_frame_received=audio_frame_callback
+            on_audio_frame_received=audio_frame_callback  # Use the audio frame callback
         )
 
 
