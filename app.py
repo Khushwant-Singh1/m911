@@ -218,7 +218,7 @@ def main():
             audio_receiver_size=1024,
             sendback_audio=False,
             video_transformer_factory=None,  # This is fine if you don’t need video transformations
-            on_audio_frame=audio_frame_callback  # Use the audio frame callback
+            callback=audio_frame_callback  # Use the audio frame callback
         )
 
 
