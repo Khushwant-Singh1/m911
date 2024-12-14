@@ -7,3 +7,4 @@ langchain-community
 speechrecognition
 pyttsx3
 tiktoken
+PyAudio
