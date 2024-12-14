@@ -8,3 +8,6 @@ speechrecognition
 pyttsx3
 tiktoken
 PyAudio==0.2.11
+streamlit-webrtc
+av
+pydub
