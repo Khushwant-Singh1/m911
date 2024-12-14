@@ -153,6 +153,8 @@ def main():
     st.markdown(css, unsafe_allow_html=True)
 
     # Session states
+    if "audio_processor" not in st.session_state:
+        st.session_state.audio_processor = AudioProcessor()
     if "conversation" not in st.session_state:
         st.session_state.conversation = None
     if "memory" not in st.session_state:
