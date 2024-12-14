@@ -153,7 +153,7 @@ def main():
                 if raw_text.strip():
                     text_chunks = get_text_chunks(raw_text)
                     st.session_state.vectorstore = get_vectorstore(text_chunks)
-                    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
+                    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7, openai_api_key = st.secrets["openai"]["api_key"])
                     st.session_state.conversation = ConversationalRetrievalChain.from_llm(
                         llm=llm,
                         retriever=st.session_state.vectorstore.as_retriever(),
