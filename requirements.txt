@@ -6,3 +6,4 @@ openai
 langchain-community
 speechrecognition
 pyttsx3
+tiktoken
